@@ -36,7 +36,7 @@
 					:label="`:ri-history-line: ${$time(patient.timestamp).fromNow()}`",
 					:margin="false"
 				)
-	.container__empty No Data
+	.container__empty(v-else) No Data
 </template>
 
 <script>
