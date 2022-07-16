@@ -9,7 +9,7 @@
 	)
 
 	CommonLoader.container__loading(v-if="!currentLoaded")
-	.container__cards(v-else)
+	.container__cards(v-else-if="cards.length")
 		.card(
 			v-for="(patient, index) in cards",
 			@click="selectPatient(index)",
@@ -36,6 +36,7 @@
 					:label="`:ri-history-line: ${$time(patient.timestamp).fromNow()}`",
 					:margin="false"
 				)
+	.container__empty No Current Requests
 </template>
 
 <script>
@@ -75,9 +76,6 @@ export default {
 	components: {
 		CommonLoader,
 	},
-	mounted() {
-		console.log(this.$time("2022-07-16T14:24:36.596Z").fromNow());
-	},
 };
 </script>
 
@@ -102,6 +100,10 @@ export default {
 		display: grid;
 		grid-template-columns: 1fr;
 		row-gap: 0.75rem;
+	}
+
+	&__empty {
+		text-align: center;
 	}
 }
 
