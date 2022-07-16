@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { store } from "@/stores/index";
 import EmergencyRequests from "@/components/emergency/EmergencyRequests.vue";
 import PatientInformation from "@/components/emergency/PatientInformation.vue";
@@ -26,10 +26,16 @@ export default {
 			current: "current",
 		}),
 	},
+	methods: {
+		...mapActions(store, ["getSearches"]),
+	},
 	components: {
 		EmergencyRequests,
 		PatientInformation,
 		AmbulanceBooking,
+	},
+	mounted() {
+		this.getSearches(this.$hspa);
 	},
 };
 </script>

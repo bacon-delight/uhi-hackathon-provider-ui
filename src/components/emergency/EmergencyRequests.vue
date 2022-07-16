@@ -8,7 +8,8 @@
 		@select="(category) => selectCategory(category)"
 	)
 
-	.container__cards
+	CommonLoader.container__loading(v-if="!currentLoaded")
+	.container__cards(v-else)
 		.card(
 			v-for="(patient, index) in cards",
 			@click="selectPatient(index)",
@@ -17,7 +18,7 @@
 			.card__flex
 				v-eco-paragraph(:label="patient.name", :margin="false", type="emphasis")
 				v-eco-paragraph.color-grey(
-					:label="patient.id",
+					:label="`${patient.id.slice(0, 5)}...${patient.id.slice(-5)}`",
 					:margin="false",
 					type="code"
 				)
@@ -32,7 +33,7 @@
 						:margin="false"
 					)
 				v-eco-paragraph.color-grey(
-					label=":ri-history-line: 3 mins ago",
+					:label="`:ri-history-line: ${$time(patient.timestamp).fromNow()}`",
 					:margin="false"
 				)
 </template>
@@ -41,6 +42,7 @@
 import { mapState, mapActions } from "pinia";
 import { store } from "@/stores/index";
 import { mapStatus, mapStatusHue } from "@/assets/helpers";
+import CommonLoader from "../common/CommonLoader.vue";
 
 export default {
 	name: "EmergencyRequests",
@@ -49,6 +51,7 @@ export default {
 			selectedCategory: "selectedCategory",
 			selectedPatient: "selectedPatient",
 			cards: "getCards",
+			currentLoaded: "currentLoaded",
 		}),
 	},
 	data() {
@@ -68,6 +71,12 @@ export default {
 			selectCategory: "selectCategory",
 			selectPatient: "selectPatient",
 		}),
+	},
+	components: {
+		CommonLoader,
+	},
+	mounted() {
+		console.log(this.$time("2022-07-16T14:24:36.596Z").fromNow());
 	},
 };
 </script>
