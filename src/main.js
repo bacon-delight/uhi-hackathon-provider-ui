@@ -8,7 +8,6 @@ import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-// import { io } from "socket.io-client";
 
 const app = createApp(App);
 
@@ -17,10 +16,8 @@ app.use(router);
 app.use(Ecosphere);
 
 app.config.globalProperties.$hspa = axios.create({
-	baseURL: "http://localhost:4000/hspa/ui",
+	baseURL: import.meta.env.VITE_HSPA_UI_BASE_URL,
 });
 app.config.globalProperties.$time = dayjs;
-
-console.log(import.meta.env);
 
 app.mount("#app");
