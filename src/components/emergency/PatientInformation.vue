@@ -4,15 +4,16 @@
 	.container__header
 		v-eco-header(:label="patient.name", :type="4", :margin="false")
 		.container__status
-			v-eco-dot
-			v-eco-paragraph(label="Pending")
+			v-eco-dot(:hue="mapStatusHue(patient.status)")
+			v-eco-paragraph(:label="mapStatus(patient.status)")
 
 	.color-grey
 		v-eco-header(:label="patient.id", :type="6", :margin="false")
 
 	.details
 		.details__phone
-			v-eco-input(label="Phone Number", :defaultValue="9983727238")
+			//- v-eco-input(label="Phone Number", :defaultValue="9983727238")
+			v-eco-header(label="Phone Number: +91-99837-27238", :type="6")
 			v-eco-button(
 				label=":ri-phone-line: Call",
 				style="height: fit-content",
@@ -31,6 +32,8 @@
 			:options="natureOfEmergency",
 			placeholder="Unknown"
 		)
+		v-eco-input(label="Additional Message")
+		v-eco-input(label="Address")
 </template>
 
 <script>
@@ -70,6 +73,30 @@ export default {
 	methods: {
 		call() {
 			window.location.href = "tel:+91123456789";
+		},
+		mapStatus(status) {
+			switch (status) {
+				case "pending":
+					return "Pending";
+				case "responded":
+					return "Responded";
+				case "sos":
+					return "SOS";
+				default:
+					return false;
+			}
+		},
+		mapStatusHue(status) {
+			switch (status) {
+				case "pending":
+					return "warning";
+				case "responded":
+					return "success";
+				case "sos":
+					return "critical";
+				default:
+					return false;
+			}
 		},
 	},
 };

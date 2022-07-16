@@ -5,7 +5,7 @@
 		.layout__panes(v-if="isLandingPage")
 			EmergencyRequests.layout__panes--item
 			PatientInformation.layout__panes--item
-			.layout__panes--item mid
+			AmbulanceBooking.layout__panes--item 
 		router-view(v-else)
 </template>
 
@@ -14,6 +14,7 @@ import { mapState } from "pinia";
 import { store } from "@/stores/index";
 import EmergencyRequests from "@/components/emergency/EmergencyRequests.vue";
 import PatientInformation from "@/components/emergency/PatientInformation.vue";
+import AmbulanceBooking from "../components/emergency/AmbulanceBooking.vue";
 
 export default {
 	name: "LandingPage",
@@ -28,6 +29,7 @@ export default {
 	components: {
 		EmergencyRequests,
 		PatientInformation,
+		AmbulanceBooking,
 	},
 };
 </script>
