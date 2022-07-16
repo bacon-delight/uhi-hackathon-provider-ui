@@ -1,5 +1,6 @@
 <template lang="pug">
-.container
+.container--null(v-if="!patient") No Patient Selected
+.container(v-else)
 	.container__header
 		v-eco-header(label="TYPE", :type="6", :margin="false")
 	.container__cards
@@ -8,7 +9,7 @@
 			@click="selectAmbulance(index)",
 			:class="{ 'card--selected': selectedAmbulanceType === index }"
 		)
-			v-eco-radio(:label="ambulance.label")
+			v-eco-paragraph(:label="ambulance.label", :margin="false", type="light")
 			v-eco-paragraph(
 				:label="`Rs. ${ambulance.price}/-`",
 				:margin="false",
@@ -17,6 +18,9 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { store } from "@/stores/index";
+
 export default {
 	name: "AmbulanceBooking",
 	data() {
@@ -47,6 +51,11 @@ export default {
 			this.selectedAmbulanceType = index;
 		},
 	},
+	computed: {
+		...mapState(store, {
+			patient: "getPatient",
+		}),
+	},
 };
 </script>
 
@@ -65,6 +74,11 @@ export default {
 		> * {
 			margin: 0.5rem 0;
 		}
+	}
+
+	&--null {
+		text-align: center;
+		margin-top: 1rem;
 	}
 }
 

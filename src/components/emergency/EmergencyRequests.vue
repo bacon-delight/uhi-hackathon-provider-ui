@@ -40,6 +40,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { store } from "@/stores/index";
+import { mapStatus, mapStatusHue } from "@/assets/helpers";
 
 export default {
 	name: "EmergencyRequests",
@@ -52,6 +53,8 @@ export default {
 	},
 	data() {
 		return {
+			mapStatus,
+			mapStatusHue,
 			selectedIndex: null,
 			toggleOptions: [
 				{ label: "Current", value: "current" },
@@ -65,30 +68,6 @@ export default {
 			selectCategory: "selectCategory",
 			selectPatient: "selectPatient",
 		}),
-		mapStatus(status) {
-			switch (status) {
-				case "pending":
-					return "Pending";
-				case "responded":
-					return "Responded";
-				case "sos":
-					return "SOS";
-				default:
-					return false;
-			}
-		},
-		mapStatusHue(status) {
-			switch (status) {
-				case "pending":
-					return "warning";
-				case "responded":
-					return "success";
-				case "sos":
-					return "critical";
-				default:
-					return false;
-			}
-		},
 	},
 };
 </script>

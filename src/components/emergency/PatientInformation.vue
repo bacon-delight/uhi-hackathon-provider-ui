@@ -12,8 +12,8 @@
 
 	.details
 		.details__phone
-			//- v-eco-input(label="Phone Number", :defaultValue="9983727238")
-			v-eco-header(label="Phone Number: +91-99837-27238", :type="6")
+			//- v-eco-input(label="Mobile:", :defaultValue="9983727238")
+			v-eco-header(label="Phone: +91-99837-27238", :type="6")
 			v-eco-button(
 				label=":ri-phone-line: Call",
 				style="height: fit-content",
@@ -39,11 +39,14 @@
 <script>
 import { mapState } from "pinia";
 import { store } from "@/stores/index";
+import { mapStatus, mapStatusHue } from "@/assets/helpers";
 
 export default {
 	name: "PatientInformation",
 	data() {
 		return {
+			mapStatus,
+			mapStatusHue,
 			bloodGroups: [
 				{ label: "A+", value: "A+" },
 				{ label: "A-", value: "A-" },
@@ -73,30 +76,6 @@ export default {
 	methods: {
 		call() {
 			window.location.href = "tel:+91123456789";
-		},
-		mapStatus(status) {
-			switch (status) {
-				case "pending":
-					return "Pending";
-				case "responded":
-					return "Responded";
-				case "sos":
-					return "SOS";
-				default:
-					return false;
-			}
-		},
-		mapStatusHue(status) {
-			switch (status) {
-				case "pending":
-					return "warning";
-				case "responded":
-					return "success";
-				case "sos":
-					return "critical";
-				default:
-					return false;
-			}
 		},
 	},
 };
