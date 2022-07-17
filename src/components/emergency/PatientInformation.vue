@@ -2,34 +2,29 @@
 .container--null(v-if="!patient") No Patient Selected
 .container(v-else)
 	.container__header
-		v-eco-header(:label="patient.name", :type="4", :margin="false")
+		v-eco-header(:label="patient.patient_name", :type="4", :margin="false")
 		.container__status
 			v-eco-dot(:hue="mapStatusHue(patient.status)")
 			v-eco-paragraph(:label="mapStatus(patient.status)")
 
 	.color-grey
-		v-eco-header(:label="patient.id", :type="6", :margin="false")
+		v-eco-header(:label="patient._id", :type="6", :margin="false")
 
 	.details
 		.details__time
 			v-eco-header(
-				v-if="patient.raw?.request?.message?.intent?.fulfillment?.start?.time?.timestamp",
-				:label="`:ri-caravan-line: ${$time(patient.timestamp).format('ddd, DD MMM, hh:mm A')}`",
+				v-if="patient.pickup_time",
+				:label="`:ri-caravan-line: ${$time(patient.pickup_time).format('ddd, DD MMM, hh:mm A')}`",
 				:type="6",
 				:margin="false"
 			)
-		.details__phone(
-			v-if="patient.raw?.request?.message?.intent?.fulfillment?.start?.contact?.phone"
-		)
-			v-eco-header(
-				:label="`Phone: ${patient.raw?.request?.message?.intent?.fulfillment?.start?.contact?.phone}`",
-				:type="6"
-			)
+		.details__phone(v-if="patient.phone_number")
+			v-eco-header(:label="`Phone: ${patient.phone_number}`", :type="6")
 			v-eco-button(
 				label=":ri-phone-line: Call",
 				style="height: fit-content",
 				theme="primary",
-				@click="call(patient.raw?.request?.message?.intent?.fulfillment?.start?.contact?.phone)"
+				@click="call(patient.phone_number)"
 			)
 		.details__blood-group
 			v-eco-paragraph(label="Blood Group", type="sidenote")
@@ -37,7 +32,7 @@
 				v-eco-radio(
 					v-for="bloodGroup in bloodGroups",
 					:label="bloodGroup.label",
-					:defaultValue="patient.raw?.request?.message?.intent?.fulfillment?.tags?.['@abdm/gov/in/bloodgroup'].toUpperCase() === bloodGroup.value"
+					:defaultValue="patient.blood_group === bloodGroup.value"
 				)
 		v-eco-dropdown(
 			label="Nature of Emergency",

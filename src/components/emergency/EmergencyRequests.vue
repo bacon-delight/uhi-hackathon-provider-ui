@@ -12,23 +12,25 @@
 	.container__cards(v-else-if="cards.length")
 		.card(
 			v-for="(patient, index) in cards",
-			@click="selectPatient(index)",
+			@click="selectPatient(patient._id)",
 			:class="{ 'card--selected': selectedPatient === index }"
 		)
 			.card__flex
-				v-eco-paragraph(:label="patient.name", :margin="false", type="emphasis")
+				v-eco-paragraph(
+					:label="patient.patient_name",
+					:margin="false",
+					type="emphasis"
+				)
 				v-eco-paragraph.color-grey(
-					:label="patient.id.length > 10 ? `${patient.id.slice(0, 5)}...${patient.id.slice(-5)}` : patient.id",
+					:label="patient._id.length > 10 ? `${patient._id.slice(0, 5)}...${patient._id.slice(-5)}` : patient._id",
 					:margin="false",
 					type="code"
 				)
 			.card__content
 				v-eco-paragraph(label="Bellandur", :margin="false")
-			.card__content(
-				v-if="patient.raw?.request?.message?.intent?.fulfillment?.start?.time?.timestamp"
-			)
+			.card__content(v-if="patient.pickup_time")
 				v-eco-paragraph(
-					:label="`:ri-caravan-line: ${$time(patient.raw?.request?.message?.intent?.fulfillment?.start?.time?.timestamp).format('ddd, DD MMM, hh:mm A')}`",
+					:label="`:ri-caravan-line: ${$time(patient.pickup_time).format('ddd, DD MMM, hh:mm A')}`",
 					:margin="false"
 				)
 			.card__flex
@@ -40,7 +42,7 @@
 						:margin="false"
 					)
 				v-eco-paragraph.color-grey(
-					:label="`:ri-history-line: ${$time(patient.timestamp).fromNow()}`",
+					:label="`:ri-history-line: ${$time(patient.search_timestamp).fromNow()}`",
 					:margin="false"
 				)
 	.container__empty(v-else) No Data

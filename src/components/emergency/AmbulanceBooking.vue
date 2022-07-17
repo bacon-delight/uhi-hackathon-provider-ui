@@ -6,8 +6,7 @@
 	.container__cards
 		.card(
 			v-for="(ambulance, index) in ambulanceTypes",
-			@click="selectAmbulance(index)",
-			:class="{ 'card--selected': selectedAmbulanceType === index }"
+			:class="{ 'card--selected': ambulance.id === patient.fulfillment_type }"
 		)
 			v-eco-paragraph(:label="ambulance.label", :margin="false", type="light")
 			v-eco-paragraph(
@@ -15,9 +14,11 @@
 				:margin="false",
 				type="emphasis"
 			)
+	//- .container__details(v-if="patient.status === 'confirmed'")
+
 	v-eco-button.container__action(
-		v-if="selectedAmbulanceType",
-		label="Send Quote",
+		v-if="patient.status === 'confirmed'",
+		label="Dispatch Ambulance",
 		theme="primary"
 	)
 </template>
@@ -35,26 +36,25 @@ export default {
 				{
 					label: "Advanced Life Support",
 					price: "5000",
+					id: "advanced_life_support",
 				},
 				{
 					label: "Basic Life Support",
 					price: "4200",
+					id: "basic_life_support",
 				},
 				{
 					label: "Patient Transfer",
 					price: "2600",
+					id: "patient_transfer",
 				},
 				{
 					label: "Mortuary",
 					price: "1300",
+					id: "mortuary",
 				},
 			],
 		};
-	},
-	methods: {
-		selectAmbulance(index) {
-			this.selectedAmbulanceType = index;
-		},
 	},
 	computed: {
 		...mapState(store, {

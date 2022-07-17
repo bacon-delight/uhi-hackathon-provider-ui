@@ -7,22 +7,7 @@ export const store = defineStore({
 		selectedCategory: "current",
 		selectedPatient: null,
 		currentLoaded: false,
-		current: [
-			// {
-			// 	id: "120833398",
-			// 	name: "Shiwani Rawat",
-			// 	status: "pending",
-			// 	timestamp:
-			// 		"Fri Jul 15 2022 23:12:18 GMT+0530 (India Standard Time)",
-			// },
-			// {
-			// 	id: "427483398",
-			// 	name: "Shivam Singh",
-			// 	status: "responded",
-			// 	timestamp:
-			// 		"Fri Jul 15 2022 23:12:18 GMT+0530 (India Standard Time)",
-			// },
-		],
+		current: [],
 		confirmed: [
 			{
 				id: "120833398",
@@ -32,17 +17,29 @@ export const store = defineStore({
 					"Fri Jul 15 2022 23:12:18 GMT+0530 (India Standard Time)",
 			},
 		],
+		transactions: [],
 		dispatched: [],
 	}),
 	getters: {
 		getCards(state) {
 			switch (state.selectedCategory) {
 				case "current":
-					return state.current;
+					return _.filter(
+						state.transactions,
+						(patient) =>
+							patient.status === "pending" ||
+							patient.status === "initiated"
+					);
 				case "confirmed":
-					return state.confirmed;
+					return _.filter(
+						state.transactions,
+						(patient) => patient.status === "confirmed"
+					);
 				case "dispatched":
-					return state.dispatched;
+					return _.filter(
+						state.transactions,
+						(patient) => patient.status === "dispatched"
+					);
 				default:
 					break;
 			}
@@ -51,16 +48,8 @@ export const store = defineStore({
 			if (state.selectedPatient === null) {
 				return false;
 			}
-			switch (state.selectedCategory) {
-				case "current":
-					return state.current[this.selectedPatient];
-				case "confirmed":
-					return state.confirmed[this.selectedPatient];
-				case "dispatched":
-					return state.dispatched[this.selectedPatient];
-				default:
-					break;
-			}
+			return _.find(state.transactions, { _id: this.selectedPatient });
+			// return state.transactions[this.selectedPatient];
 		},
 	},
 	actions: {
@@ -68,37 +57,14 @@ export const store = defineStore({
 			this.selectedCategory = category;
 			this.selectedPatient = null;
 		},
-		selectPatient(index) {
-			this.selectedPatient = index;
+		selectPatient(id) {
+			this.selectedPatient = id;
 		},
 		async getCurrentSearches(axios) {
 			await axios
 				.get("/search")
 				.then((response) => {
-					this.current = _.chain(response.data)
-						.filter((search) => {
-							return (
-								search.request.message?.intent?.fulfillment
-									?.type === "EMERGENCY-PICKUP" ||
-								search.request.message?.intent?.fulfillment
-									?.type === "DROP"
-							);
-						})
-						.map((search) => {
-							return {
-								id: search._id,
-								name:
-									search.request?.message?.intent?.fulfillment
-										?.start?.contact?.tags?.[
-										"@abdm/gov/in/name"
-									] || "Unknown",
-								status: "pending",
-								timestamp: search.response.context.timestamp,
-								raw: search,
-							};
-						})
-						.orderBy(["timestamp"], ["desc"])
-						.value();
+					this.transactions = response.data;
 				})
 				.catch((error) => {
 					console.log(error);

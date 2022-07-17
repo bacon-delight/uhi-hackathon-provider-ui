@@ -2,8 +2,8 @@ export function mapStatus(status) {
 	switch (status) {
 		case "pending":
 			return "Pending";
-		case "responded":
-			return "Responded";
+		case "initiated":
+			return "Initiated";
 		case "sos":
 			return "SOS";
 		case "confirmed":
@@ -17,7 +17,7 @@ export function mapStatusHue(status) {
 	switch (status) {
 		case "pending":
 			return "warning";
-		case "responded":
+		case "initiated":
 			return "information";
 		case "sos":
 			return "critical";
