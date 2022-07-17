@@ -31,6 +31,12 @@
 				theme="primary",
 				@click="call(patient.phone_number)"
 			)
+		v-eco-button(
+			label=":ri-vidicon-line: Join Google Meet",
+			style="height: fit-content; width: 100%",
+			theme="hue",
+			@click="meet"
+		)
 		.details__blood-group
 			v-eco-paragraph(label="Blood Group", type="sidenote")
 			form.details__blood-group--grid
@@ -88,6 +94,9 @@ export default {
 	methods: {
 		call(number) {
 			window.location.href = `tel:+91${number}`;
+		},
+		meet() {
+			window.open("https://meet.google.com/");
 		},
 	},
 };
