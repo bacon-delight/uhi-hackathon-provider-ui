@@ -15,10 +15,12 @@
 				type="emphasis"
 			)
 
+	CommonLoader.container__loading(v-if="loading")
 	v-eco-button.container__action(
-		v-if="patient.status === 'confirmed' || patient.status === 'dispatched'",
+		v-else-if="patient.status === 'confirmed'",
 		label="Dispatch Ambulance",
-		theme="primary"
+		theme="primary",
+		@click="() => dispatchAmbulance($hspa, patient._id)"
 	)
 
 	.container__details(
@@ -87,8 +89,9 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { store } from "@/stores/index";
+import CommonLoader from "../common/CommonLoader.vue";
 
 export default {
 	name: "AmbulanceBooking",
@@ -122,7 +125,14 @@ export default {
 	computed: {
 		...mapState(store, {
 			patient: "getPatient",
+			loading: "dispatchLoading",
 		}),
+	},
+	components: {
+		CommonLoader,
+	},
+	methods: {
+		...mapActions(store, ["dispatchAmbulance"]),
 	},
 };
 </script>

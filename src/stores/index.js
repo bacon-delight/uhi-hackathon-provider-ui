@@ -7,18 +7,8 @@ export const store = defineStore({
 		selectedCategory: "current",
 		selectedPatient: null,
 		currentLoaded: false,
-		current: [],
-		confirmed: [
-			{
-				id: "120833398",
-				name: "Shiwani Rawat",
-				status: "confirmed",
-				timestamp:
-					"Fri Jul 15 2022 23:12:18 GMT+0530 (India Standard Time)",
-			},
-		],
+		dispatchLoading: false,
 		transactions: [],
-		dispatched: [],
 	}),
 	getters: {
 		getCards(state) {
@@ -49,7 +39,6 @@ export const store = defineStore({
 				return false;
 			}
 			return _.find(state.transactions, { _id: this.selectedPatient });
-			// return state.transactions[this.selectedPatient];
 		},
 	},
 	actions: {
@@ -70,6 +59,32 @@ export const store = defineStore({
 					console.log(error);
 				});
 			this.currentLoaded = true;
+		},
+		async dispatchAmbulance(axios, id) {
+			this.dispatchLoading = true;
+			await axios
+				.put(`/dispatch/${id}`)
+				.then((response) => {
+					if (response.data.dispatched) {
+						this.transactions = _.map(
+							this.transactions,
+							(patient) => {
+								return {
+									...patient,
+									status:
+										patient._id === id
+											? "dispatched"
+											: patient.status,
+								};
+							}
+						);
+						this.selectedCategory = "dispatched";
+					}
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			this.dispatchLoading = false;
 		},
 	},
 });
