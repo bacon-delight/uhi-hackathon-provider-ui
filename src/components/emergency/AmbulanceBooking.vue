@@ -14,13 +14,76 @@
 				:margin="false",
 				type="emphasis"
 			)
-	//- .container__details(v-if="patient.status === 'confirmed'")
 
 	v-eco-button.container__action(
-		v-if="patient.status === 'confirmed'",
+		v-if="patient.status === 'confirmed' || patient.status === 'dispatched'",
 		label="Dispatch Ambulance",
 		theme="primary"
 	)
+
+	.container__details(
+		v-if="patient.status === 'confirmed' || patient.status === 'dispatched'"
+	)
+		.details__header
+			v-eco-header(label="PAYMENT DETAILS", :type="6", :margin="false")
+		.details
+			v-eco-paragraph.details__label(
+				label="Payment Method",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				label="Card - MasterCard",
+				type="light",
+				:margin="false"
+			)
+
+	.container__details(
+		v-if="patient.status === 'confirmed' || patient.status === 'dispatched'"
+	)
+		.details__header
+			v-eco-header(label="AMBULANCE DETAILS", :type="6", :margin="false")
+		.details
+			v-eco-paragraph.details__label(
+				label="Driver",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="patient.dispatch.driver_name",
+				type="light",
+				:margin="false"
+			)
+			v-eco-paragraph.details__label(
+				label="Registration",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="patient.dispatch.registration_number",
+				type="light",
+				:margin="false"
+			)
+			v-eco-paragraph.details__label(
+				label="Phone",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="String(patient.dispatch.phone_number)",
+				type="light",
+				:margin="false"
+			)
+			v-eco-paragraph.details__label(
+				label="OTP",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="String(patient.dispatch.otp)",
+				type="light",
+				:margin="false"
+			)
 </template>
 
 <script>
@@ -88,6 +151,17 @@ export default {
 	&--null {
 		text-align: center;
 		margin-top: 1rem;
+	}
+}
+
+.details {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+
+	&__header {
+		margin-top: 1rem;
+		margin-bottom: 0.5rem;
+		color: $color-helper-link;
 	}
 }
 

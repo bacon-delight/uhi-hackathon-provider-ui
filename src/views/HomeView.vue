@@ -1,6 +1,6 @@
 <template lang="pug">
 .layout
-	v-eco-navbar(brand="HSPA", :options="[{ type: 'theme' }]")
+	v-eco-navbar(brand="Ambulet CP", :options="[{ type: 'theme' }]")
 	.layout__content
 		.layout__panes(v-if="isLandingPage")
 			EmergencyRequests.layout__panes--item

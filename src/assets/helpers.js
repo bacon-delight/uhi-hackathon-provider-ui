@@ -4,8 +4,8 @@ export function mapStatus(status) {
 			return "Pending";
 		case "initiated":
 			return "Initiated";
-		case "sos":
-			return "SOS";
+		case "dispatched":
+			return "Dispatched";
 		case "confirmed":
 			return "Confirmed";
 		default:
@@ -19,8 +19,8 @@ export function mapStatusHue(status) {
 			return "warning";
 		case "initiated":
 			return "information";
-		case "sos":
-			return "critical";
+		case "dispatched":
+			return "success";
 		case "confirmed":
 			return "success";
 		default:

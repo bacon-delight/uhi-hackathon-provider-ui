@@ -13,7 +13,7 @@
 		.card(
 			v-for="(patient, index) in cards",
 			@click="selectPatient(patient._id)",
-			:class="{ 'card--selected': selectedPatient === index }"
+			:class="{ 'card--selected': selectedPatient === patient._id }"
 		)
 			.card__flex
 				v-eco-paragraph(
