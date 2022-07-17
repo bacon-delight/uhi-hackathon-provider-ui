@@ -12,12 +12,17 @@
 
 	.details
 		.details__time
-			v-eco-header(
-				v-if="patient.pickup_time",
-				:label="`:ri-caravan-line: ${$time(patient.pickup_time).format('ddd, DD MMM, hh:mm A')}`",
-				:type="6",
-				:margin="false"
+			v-eco-paragraph(
+				:label="`Pickup Time: ${$time(patient.pickup_time).format('ddd, DD MMM, hh:mm A')}`",
+				type="light"
 			)
+			.details__time--red
+				v-eco-header(
+					v-if="patient.pickup_time",
+					:label="`:ri-caravan-line: ${$time(patient.pickup_time).fromNow()}`",
+					:type="6",
+					:margin="false"
+				)
 		.details__phone(v-if="patient.phone_number")
 			v-eco-header(:label="`Phone: ${patient.phone_number}`", :type="6")
 			v-eco-button(
@@ -119,8 +124,11 @@ export default {
 	}
 
 	&__time {
-		margin: 1rem 0 -1rem;
-		color: $color-helper-error;
+		margin: 1rem 0;
+
+		&--red {
+			color: $color-helper-error;
+		}
 	}
 
 	&__phone {
