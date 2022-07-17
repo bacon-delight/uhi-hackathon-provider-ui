@@ -14,22 +14,24 @@ export const store = defineStore({
 		getCards(state) {
 			switch (state.selectedCategory) {
 				case "current":
-					return _.filter(
-						state.transactions,
-						(patient) =>
-							patient.status === "pending" ||
-							patient.status === "initiated"
-					);
+					return _.chain(state.transactions)
+						.filter(
+							(patient) =>
+								patient.status === "pending" ||
+								patient.status === "initiated"
+						)
+						.orderBy(["search_timestamp"], ["desc"])
+						.value();
 				case "confirmed":
-					return _.filter(
-						state.transactions,
-						(patient) => patient.status === "confirmed"
-					);
+					return _.chain(state.transactions)
+						.filter((patient) => patient.status === "confirmed")
+						.orderBy(["search_timestamp"], ["desc"])
+						.value();
 				case "dispatched":
-					return _.filter(
-						state.transactions,
-						(patient) => patient.status === "dispatched"
-					);
+					return _.chain(state.transactions)
+						.filter((patient) => patient.status === "dispatched")
+						.orderBy(["search_timestamp"], ["desc"])
+						.value();
 				default:
 					break;
 			}
