@@ -67,25 +67,18 @@ export const store = defineStore({
 			await axios
 				.put(`/dispatch/${id}`)
 				.then((response) => {
-					if (response.data.dispatched) {
-						this.transactions = _.map(
-							this.transactions,
-							(patient) => {
-								return {
-									...patient,
-									status:
-										patient._id === id
-											? "dispatched"
-											: patient.status,
-								};
-							}
-						);
-						this.selectedCategory = "dispatched";
-					}
+					console.log(response);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
+			this.transactions = _.map(this.transactions, (patient) => {
+				return {
+					...patient,
+					status: patient._id === id ? "dispatched" : patient.status,
+				};
+			});
+			this.selectedCategory = "dispatched";
 			this.dispatchLoading = false;
 		},
 	},
