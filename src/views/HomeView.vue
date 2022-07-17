@@ -27,7 +27,7 @@ export default {
 		}),
 	},
 	methods: {
-		...mapActions(store, ["getSearches"]),
+		...mapActions(store, ["getCurrentSearches"]),
 	},
 	components: {
 		EmergencyRequests,
@@ -35,7 +35,7 @@ export default {
 		AmbulanceBooking,
 	},
 	mounted() {
-		this.getSearches(this.$hspa);
+		this.getCurrentSearches(this.$hspa);
 	},
 };
 </script>

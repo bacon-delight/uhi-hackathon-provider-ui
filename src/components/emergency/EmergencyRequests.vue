@@ -18,12 +18,19 @@
 			.card__flex
 				v-eco-paragraph(:label="patient.name", :margin="false", type="emphasis")
 				v-eco-paragraph.color-grey(
-					:label="`${patient.id.slice(0, 5)}...${patient.id.slice(-5)}`",
+					:label="patient.id.length > 10 ? `${patient.id.slice(0, 5)}...${patient.id.slice(-5)}` : patient.id",
 					:margin="false",
 					type="code"
 				)
 			.card__content
 				v-eco-paragraph(label="Bellandur", :margin="false")
+			.card__content(
+				v-if="patient.raw?.request?.message?.intent?.fulfillment?.start?.time?.timestamp"
+			)
+				v-eco-paragraph(
+					:label="`:ri-caravan-line: ${$time(patient.raw?.request?.message?.intent?.fulfillment?.start?.time?.timestamp).format('ddd, DD MMM, hh:mm A')}`",
+					:margin="false"
+				)
 			.card__flex
 				.card__status(v-if="mapStatus(patient.status)")
 					v-eco-dot(:hue="mapStatusHue(patient.status)")

@@ -15,6 +15,11 @@
 				:margin="false",
 				type="emphasis"
 			)
+	v-eco-button.container__action(
+		v-if="selectedAmbulanceType",
+		label="Send Quote",
+		theme="primary"
+	)
 </template>
 
 <script>
@@ -74,6 +79,10 @@ export default {
 		> * {
 			margin: 0.5rem 0;
 		}
+	}
+
+	&__action {
+		width: 100%;
 	}
 
 	&--null {

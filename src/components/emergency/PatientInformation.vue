@@ -11,28 +11,40 @@
 		v-eco-header(:label="patient.id", :type="6", :margin="false")
 
 	.details
-		.details__phone
-			//- v-eco-input(label="Mobile:", :defaultValue="9983727238")
-			v-eco-header(label="Phone: +91-99837-27238", :type="6")
+		.details__time
+			v-eco-header(
+				v-if="patient.raw?.request?.message?.intent?.fulfillment?.start?.time?.timestamp",
+				:label="`:ri-caravan-line: ${$time(patient.timestamp).format('ddd, DD MMM, hh:mm A')}`",
+				:type="6",
+				:margin="false"
+			)
+		.details__phone(
+			v-if="patient.raw?.request?.message?.intent?.fulfillment?.start?.contact?.phone"
+		)
+			v-eco-header(
+				:label="`Phone: ${patient.raw?.request?.message?.intent?.fulfillment?.start?.contact?.phone}`",
+				:type="6"
+			)
 			v-eco-button(
 				label=":ri-phone-line: Call",
 				style="height: fit-content",
 				theme="primary",
-				@click="call"
+				@click="call(patient.raw?.request?.message?.intent?.fulfillment?.start?.contact?.phone)"
 			)
 		.details__blood-group
 			v-eco-paragraph(label="Blood Group", type="sidenote")
 			form.details__blood-group--grid
 				v-eco-radio(
 					v-for="bloodGroup in bloodGroups",
-					:label="bloodGroup.label"
+					:label="bloodGroup.label",
+					:defaultValue="patient.raw?.request?.message?.intent?.fulfillment?.tags?.['@abdm/gov/in/bloodgroup'].toUpperCase() === bloodGroup.value"
 				)
 		v-eco-dropdown(
 			label="Nature of Emergency",
 			:options="natureOfEmergency",
 			placeholder="Unknown"
 		)
-		v-eco-input(label="Additional Message")
+		v-eco-input(label="Message")
 		v-eco-input(label="Address")
 </template>
 
@@ -74,8 +86,8 @@ export default {
 		}),
 	},
 	methods: {
-		call() {
-			window.location.href = "tel:+91123456789";
+		call(number) {
+			window.location.href = `tel:+91${number}`;
 		},
 	},
 };
@@ -109,6 +121,11 @@ export default {
 
 	> * {
 		margin: 0.7rem 0;
+	}
+
+	&__time {
+		margin: 1rem 0 -1rem;
+		color: $color-helper-error;
 	}
 
 	&__phone {

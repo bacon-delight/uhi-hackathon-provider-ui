@@ -71,17 +71,29 @@ export const store = defineStore({
 		selectPatient(index) {
 			this.selectedPatient = index;
 		},
-		async getSearches(axios) {
+		async getCurrentSearches(axios) {
 			await axios
 				.get("/search")
 				.then((response) => {
 					this.current = _.chain(response.data)
+						.filter((search) => {
+							return (
+								search.request.message?.intent?.fulfillment
+									?.type === "EMERGENCY-PICKUP" ||
+								search.request.message?.intent?.fulfillment
+									?.type === "DROP"
+							);
+						})
 						.map((search) => {
 							return {
 								id: search._id,
-								name: "Shiwani Rawat",
+								name:
+									search.request?.message?.intent?.fulfillment
+										?.start?.contact?.tags?.[
+										"@abdm/gov/in/name"
+									] || "Unknown",
 								status: "pending",
-								timestamp: search.request.context.timestamp,
+								timestamp: search.response.context.timestamp,
 								raw: search,
 							};
 						})
