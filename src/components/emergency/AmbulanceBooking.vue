@@ -5,7 +5,7 @@
 		v-eco-header(label="TYPE", :type="6", :margin="false")
 	.container__cards
 		.card(
-			v-for="(ambulance, index) in ambulanceTypes",
+			v-for="ambulance in ambulanceTypes",
 			:class="{ 'card--selected': ambulance.id === patient.fulfillment_type }"
 		)
 			v-eco-paragraph(:label="ambulance.label", :margin="false", type="light")
@@ -101,22 +101,22 @@ export default {
 			ambulanceTypes: [
 				{
 					label: "Advanced Life Support",
-					price: "5000",
+					price: "4000",
 					id: "advanced_life_support",
 				},
 				{
 					label: "Basic Life Support",
-					price: "4200",
+					price: "3000",
 					id: "basic_life_support",
 				},
 				{
 					label: "Patient Transfer",
-					price: "2600",
+					price: "2000",
 					id: "patient_transfer",
 				},
 				{
 					label: "Mortuary",
-					price: "1300",
+					price: "1000",
 					id: "mortuary",
 				},
 			],
