@@ -37,6 +37,30 @@
 			theme="hue",
 			@click="meet"
 		)
+		.details__location
+			.details__area(v-if="patient.location")
+				v-eco-header(
+					:label="`:ri-map-pin-2-line: ${patient.location}`",
+					:type="6"
+				)
+			.details__coordinates
+				.details__coordinates--label
+					v-eco-paragraph(label="Pickup", type="emphasis", :margin="false")
+				.details__coordinates--data
+					v-eco-paragraph(
+						type="code",
+						:label="`${patient.pickup_coordinates.latitude}, ${patient.pickup_coordinates.longitude}`",
+						:margin="false"
+					)
+				.details__coordinates--label
+					v-eco-paragraph(label="Drop", type="emphasis", :margin="false")
+				.details__coordinates--data
+					v-eco-paragraph(
+						type="code",
+						:label="`${patient.drop_coordinates.latitude}, ${patient.drop_coordinates.longitude}`",
+						:margin="false"
+					)
+
 		.details__blood-group
 			v-eco-paragraph(label="Blood Group", type="sidenote")
 			form.details__blood-group--grid
@@ -152,6 +176,11 @@ export default {
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr 1fr;
 		}
+	}
+
+	&__coordinates {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
 	}
 }
 </style>

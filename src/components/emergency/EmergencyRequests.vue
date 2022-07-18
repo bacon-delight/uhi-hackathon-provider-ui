@@ -26,8 +26,8 @@
 					:margin="false",
 					type="code"
 				)
-			.card__content
-				v-eco-paragraph(label="Bellandur", :margin="false")
+			.card__content(v-if="patient.location")
+				v-eco-paragraph(:label="patient.location", :margin="false")
 			.card__content(v-if="patient.pickup_time")
 				v-eco-paragraph(
 					:label="`:ri-caravan-line: ${$time(patient.pickup_time).format('ddd, DD MMM, hh:mm A')}`",

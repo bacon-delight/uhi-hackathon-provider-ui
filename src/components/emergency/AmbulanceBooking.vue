@@ -86,6 +86,36 @@
 				type="light",
 				:margin="false"
 			)
+			v-eco-paragraph.details__label(
+				label="Pickup Time",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="String(patient.pickup_time)",
+				type="light",
+				:margin="false"
+			)
+			v-eco-paragraph.details__label(
+				label="Pickup",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="`${patient.pickup_coordinates.latitude}, ${patient.pickup_coordinates.longitude}`",
+				type="light",
+				:margin="false"
+			)
+			v-eco-paragraph.details__label(
+				label="Drop",
+				type="emphasis",
+				:margin="false"
+			)
+			v-eco-paragraph.details__value(
+				:label="`${patient.drop_coordinates.latitude}, ${patient.drop_coordinates.longitude}`",
+				type="light",
+				:margin="false"
+			)
 </template>
 
 <script>
