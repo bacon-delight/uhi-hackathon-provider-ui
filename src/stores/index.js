@@ -17,8 +17,9 @@ export const store = defineStore({
 					return _.chain(state.transactions)
 						.filter(
 							(patient) =>
-								patient.status === "pending" ||
-								patient.status === "initiated"
+								(patient.status === "pending" ||
+									patient.status === "initiated") &&
+								patient.patient_name !== "Unknown"
 						)
 						.orderBy(["search_timestamp"], ["desc"])
 						.value();
